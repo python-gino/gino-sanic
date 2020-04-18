@@ -1,0 +1,42 @@
+[tool.poetry]
+name = "gino-sanic"
+version = "0.1.0"
+description = "An extension for GINO to integrate with Sanic"
+license = "BSD-3-Clause"
+authors = ["Samuel Li <lbhsot@163.com>"]
+maintainers = []
+readme = "README.md"
+homepage = "https://github.com/python-gino/gino-sanic"
+repository = "https://github.com/python-gino/gino-sanic"
+documentation = "https://python-gino.org/docs/"
+keywords = ["sqlalchemy", "python3", "sanic", "gino"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: BSD License",
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+]
+
+[tool.poetry.dependencies]
+python = "^3.6"
+gino = { version = "^1.0.0rc2", allow-prereleases = true }
+sanic = "^19.12.2"
+
+[tool.poetry.dev-dependencies]
+black = { version = "^19.10b0", python = ">=3.6" }
+
+# tests
+pytest = "^5.3.2"
+pytest-asyncio = "^0.10.0"
+pytest-cov = "^2.8.1"
+
+[tool.poetry.plugins."gino.extensions"]
+"sanic" = "gino_sanic"
+
+[build-system]
+requires = ["poetry>=1.0.0"]
+build-backend = "poetry.masonry.api"
