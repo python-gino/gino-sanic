@@ -24,7 +24,7 @@ classifiers = [
 [tool.poetry.dependencies]
 python = "^3.6"
 gino = { version = "^1.0.0rc2", allow-prereleases = true }
-sanic = "^19.12.2"
+sanic = ">=19.12.2"
 
 [tool.poetry.dev-dependencies]
 black = { version = "^19.10b0", python = ">=3.6" }
