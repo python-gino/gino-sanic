@@ -32,7 +32,7 @@ black = { version = "^19.10b0", python = ">=3.6" }
 # tests
 pytest = "^5.3.2"
 pytest-asyncio = "^0.10.0"
-pytest-cov = "^2.8.1"
+pytest-cov = "^2.11.1"
 
 [tool.poetry.plugins."gino.extensions"]
 "sanic" = "gino_sanic"
