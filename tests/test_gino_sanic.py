@@ -5,8 +5,9 @@ import ssl
 import gino
 import pytest
 import sanic
-from gino.ext.sanic import Gino
 from sanic.response import text, json
+
+from gino_sanic import Gino
 
 DB_ARGS = dict(
     host=os.getenv("DB_HOST", "localhost"),
@@ -27,7 +28,7 @@ def teardown_module():
 
 # noinspection PyShadowingNames
 async def _app(config):
-    app = sanic.Sanic()
+    app = sanic.Sanic("app")
     app.config.update(config)
     app.config.update(
         {
@@ -47,7 +48,7 @@ async def _app(config):
 
     @app.route("/")
     async def root(request):
-        conn = await request["connection"].get_raw_connection()
+        conn = await request.ctx.connection.get_raw_connection()
         # noinspection PyProtectedMember
         assert conn._holder._max_inactive_time == _MAX_INACTIVE_CONNECTION_LIFETIME
         return text("Hello, world!")
@@ -59,7 +60,7 @@ async def _app(config):
         if method == "1":
             return json((await q.gino.first_or_404()).to_dict())
         elif method == "2":
-            return json((await request["connection"].first_or_404(q)).to_dict())
+            return json((await request.ctx.connection.first_or_404(q)).to_dict())
         elif method == "3":
             return json((await db.bind.first_or_404(q)).to_dict())
         elif method == "4":
@@ -73,7 +74,7 @@ async def _app(config):
         await u.query.gino.first_or_404()
         await db.first_or_404(u.query)
         await db.bind.first_or_404(u.query)
-        await request["connection"].first_or_404(u.query)
+        await request.ctx.connection.first_or_404(u.query)
         return json(u.to_dict())
 
     e = await gino.create_engine(PG_URL)

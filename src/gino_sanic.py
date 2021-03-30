@@ -67,7 +67,7 @@ class Gino(_Gino):
     pool on response. If you need to release the connection early in the middle
     to do some long-running tasks, you can simply do this::
 
-        await request['connection'].release(permanent=False)
+        await request.ctx.connection.release(permanent=False)
 
     """
 
@@ -85,17 +85,12 @@ class Gino(_Gino):
             @app.middleware("request")
             async def on_request(request):
                 conn = await self.acquire(lazy=True)
-                if hasattr(request, "ctx"):
-                    request.ctx.connection = conn
-                else:
-                    request["connection"] = conn
+                request.ctx.connection = conn
 
             @app.middleware("response")
             async def on_response(request, _):
-                if hasattr(request, "ctx"):
-                    conn = getattr(request.ctx, "connection", None)
-                else:
-                    conn = request.pop("connection", None)
+                conn = getattr(request.ctx, "connection", None)
+
                 if conn is not None:
                     await conn.release()
 
