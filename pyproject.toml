@@ -24,7 +24,7 @@ classifiers = [
 [tool.poetry.dependencies]
 python = "^3.6"
 gino = { version = "^1.0.0rc2", allow-prereleases = true }
-sanic = "^20.0.0"
+sanic = ">=20.0.0"
 uvloop = [
     { version = "==0.14", python = "==3.6" },
     { version = "^0.15", python = ">3.6" }
